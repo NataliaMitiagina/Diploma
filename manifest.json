@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "Web detox",
+    "description": "This extension hides all photos and texts with NSFW-content",
+    "version": "0.0.1",
+    "author": "Natalia Mitiagina",
+    "icons": {"128": "icon.png"},
+    "browser_action": {
+
+        "default_title": "Hiding NSFW content",
+        "default_icon": "icon.png"
+    },
+    "content_scripts":[
+        {
+            "matches": [
+
+                "<all_urls>"
+            ],
+
+            "js": ["jquery-3.6.0.js", "content.js"]
+        
+        }
+
+    ] 
+}

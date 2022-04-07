@@ -43,12 +43,12 @@ def predict(filename: str , model_path: str = r'nsfw_model') -> float:
         
         
         
-        from nsfw_predict import predict
-        from torchvision import transforms 
-        from PIL import Image
+from nsfw_predict import predict
+from torchvision import transforms 
+from PIL import Image
         
-        file = r'C:\Users\Natalia\Desktop\1.jpg'
-        print (predict(file, r'C:\Users\Natalia\Desktop\STUDY\PSU\Diploma\1epoch.rar'))
-        a = transforms.Resize(300)
-        b = transforms.CenterCrop(300)
-        b(a(Image.open(file)))
+file = r'C:\Users\Natalia\Desktop\1.jpg'
+print (predict(file, r'C:\Users\Natalia\Desktop\STUDY\PSU\Diploma\1epoch.rar'))
+a = transforms.Resize(300)
+b = transforms.CenterCrop(300)
+b(a(Image.open(file)))

@@ -1,0 +1,54 @@
+from PIL import Image
+import torch
+import torch.nn as nn
+from torchvision import transforms
+from os.path import exists
+from efficientnet_pytorch import EfficientNet
+
+def predict(filename: str , model_path: str = r'nsfw_model') -> float:
+    '''
+    получает путь до файла и весов модели(по-умолчанию выставлены), выдаёт вероятность nsfw картинки
+    '''
+    if not exists(filename):
+        raise Exception('No such image file')
+    if not exists(model_path):
+        raise Exception('No such module path')
+    with torch.no_grad():
+        model_name = 'efficientnet-b3'
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        image_size = EfficientNet.get_image_size(model_name)
+        model = EfficientNet.from_pretrained(model_name,  include_top = False).to(device) 
+        new_model = torch.nn.Sequential(model, nn.Flatten(), torch.nn.Linear(1536, 1), torch.nn.Sigmoid()).to(device)
+        #try:
+            #new_model.load_state_dict(torch.load(model_path))
+        #except:
+            #print('failed to load model')
+
+        new_model.eval()
+        tfms = transforms.Compose([transforms.Resize(image_size), transforms.CenterCrop(image_size), 
+                               transforms.ToTensor(),
+                               transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),])
+
+        img = transforms.ToTensor()(Image.open(filename))
+        if (img.shape[0] != 3):
+            raise Exception('Image is in grayscale')
+        img = tfms(Image.open(filename))
+
+        new_model.to(device)
+        img = img.to(device)
+        img = img.reshape(1, *img.shape)
+
+        res = new_model(img).to('cpu').numpy()[0][0]
+        return res
+        
+        
+        
+        from nsfw_predict import predict
+        from torchvision import transforms 
+        from PIL import Image
+        
+        file = r'C:\Users\Natalia\Desktop\1.jpg'
+        print (predict(file, r'C:\Users\Natalia\Desktop\STUDY\PSU\Diploma\1epoch.rar'))
+        a = transforms.Resize(300)
+        b = transforms.CenterCrop(300)
+        b(a(Image.open(file)))

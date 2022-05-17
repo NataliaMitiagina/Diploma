@@ -6,3 +6,6 @@
 2. torchvision
 3. efficientnet_pytorch==0.7.0
 4. Pillow
+
+
+Классификатор текстов будет работать только на https://pikabu.ru/

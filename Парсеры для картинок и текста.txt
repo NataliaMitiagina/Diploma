@@ -1,0 +1,19 @@
+//текст
+const body = document.querySelector ('body');
+const comments = body.getElementsByClassName('comment__content')
+const textComments = []
+for (const child of comments ) {
+    textComments.push(child.innerText)
+}
+console.log(textComments)
+
+
+//картинки 
+const body = document.querySelector ('body');
+const images = body.getElementsByTagName('img')
+const imagesLinks = []
+for (const child of images ) {
+    // console.log('img', child.src)
+    imagesLinks.push(child.src)
+}
+console.log(imagesLinks)
